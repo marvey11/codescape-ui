@@ -12,7 +12,7 @@ export default defineConfig({
         styles: resolve("src/styles.ts"),
       },
       formats: ["es"],
-      fileName: (_format, entryName) => entryName,
+      fileName: (_format, entryName) => `${entryName}.js`,
       cssFileName: "style",
     },
     rollupOptions: { external: ["react", "react-dom", "react/jsx-runtime"] },

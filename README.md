@@ -10,13 +10,13 @@ An accessible React component library and light theme for applications in the Co
 ## Installation
 
 ```sh
-npm install @codescape/ui react react-dom
+npm install @marvey11/codescape-ui react react-dom
 ```
 
 Import the package stylesheet once in your application entry point, then use the typed components:
 
 ```tsx
-import "@codescape/ui/style.css";
+import "@marvey11/codescape-ui/style.css";
 import {
   Button,
   Card,
@@ -25,7 +25,7 @@ import {
   CardTitle,
   Input,
   Label,
-} from "@codescape/ui";
+} from "@marvey11/codescape-ui";
 
 export function Example() {
   return (
@@ -42,6 +42,25 @@ export function Example() {
   );
 }
 ```
+
+## Installing from GitHub Packages
+
+The package is published to GitHub Packages as `@marvey11/codescape-ui`. GitHub Actions publishes releases from this repository using its built-in `GITHUB_TOKEN`; no personal access token secret is needed for publishing.
+
+In a consuming application, map the scope to GitHub Packages in the project `.npmrc`:
+
+```ini
+@marvey11:registry=https://npm.pkg.github.com
+//npm.pkg.github.com/:_authToken=${NODE_AUTH_TOKEN}
+```
+
+Then install the package and its React peer dependencies:
+
+```sh
+npm install @marvey11/codescape-ui react react-dom
+```
+
+GitHub Packages' npm registry requires authentication for downloads, including public packages. For local development, create a personal access token (classic) with `read:packages`, set it as `NODE_AUTH_TOKEN` in your shell, and do not commit the token. In a consuming GitHub Actions workflow, use that workflow's `GITHUB_TOKEN` with `packages: read` permission instead. The package must have public visibility enabled in its GitHub Packages settings for general public access.
 
 ## Components
 

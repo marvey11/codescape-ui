@@ -2,7 +2,7 @@
 
 - Keep the public API typed and components accessible by default.
 - Use semantic HTML and Radix UI for interactive primitives that need managed keyboard and state behavior.
-- Keep shared visual tokens in `styles/theme.css`; export the compiled stylesheet as `@codescape/ui/style.css`.
+- Keep shared visual tokens in `styles/theme.css`; export the compiled stylesheet as `@marvey11/codescape-ui/style.css`.
 - Write documentation in British/International English.
 - Add component stories when introducing or changing public components.
 - Keep lint rules focused on correctness and accessibility; Prettier owns code formatting.
