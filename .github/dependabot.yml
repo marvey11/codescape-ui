@@ -14,12 +14,8 @@ updates:
       - dependency-name: "typescript"
         update-types:
           - version-update:semver-major
+
   - package-ecosystem: github-actions
     directory: "/"
     schedule:
       interval: weekly
-    groups:
-      minor-and-patch:
-        update-types:
-          - minor
-          - patch
