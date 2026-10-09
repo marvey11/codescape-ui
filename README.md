@@ -5,7 +5,7 @@ An accessible React component library and light theme for applications in the Co
 ## Requirements
 
 - React and React DOM 19 or later (peer dependencies)
-- Node.js 22.13 or later for development (required by Storybook 10 and Vitest 5)
+- Node.js 22.22.2+, 24.15.0+, or 26+ for development (required by Storybook 10 and Vitest 5)
 
 ## Installation
 
