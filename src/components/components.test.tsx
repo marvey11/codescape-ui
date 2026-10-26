@@ -14,6 +14,33 @@ import {
 import { Checkbox } from "./checkbox";
 import { Input } from "./input";
 import { Label } from "./label";
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+  EmptyState,
+  Skeleton,
+} from "./feedback";
+import { Pagination } from "./pagination";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectSeparator,
+  SelectTrigger,
+  SelectValue,
+} from "./select";
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "./dropdown-menu";
 
 describe("Button", () => {
   it("applies variant and size and defaults to a safe button type", () => {
@@ -112,5 +139,95 @@ describe("Badge and Card", () => {
     expect(screen.getByText("Summary")).toBeInTheDocument();
     expect(screen.getByText("Details")).toBeInTheDocument();
     expect(screen.getByText("Actions")).toBeInTheDocument();
+  });
+});
+
+describe("Select", () => {
+  it("opens with keyboard and selects an option", async () => {
+    const user = userEvent.setup();
+    render(
+      <Select>
+        <SelectTrigger aria-label="Region">
+          <SelectValue placeholder="Choose" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectGroup>
+            <SelectLabel>Regions</SelectLabel>
+            <SelectItem value="eu">Europe</SelectItem>
+            <SelectItem value="na">North America</SelectItem>
+          </SelectGroup>
+          <SelectSeparator />
+        </SelectContent>
+      </Select>,
+    );
+    const trigger = screen.getByRole("combobox", { name: "Region" });
+    trigger.focus();
+    await user.keyboard("{Enter}");
+    await user.keyboard("{Enter}");
+    expect(trigger).toHaveTextContent("Europe");
+  });
+});
+
+describe("DropdownMenu", () => {
+  it("opens and activates an item with keyboard interaction", async () => {
+    const user = userEvent.setup();
+    const action = vi.fn();
+    render(
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button>Actions</Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuLabel>Record</DropdownMenuLabel>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem onSelect={action}>Edit</DropdownMenuItem>
+          <DropdownMenuCheckboxItem
+            checked={false}
+            onCheckedChange={() => undefined}
+          >
+            Pin
+          </DropdownMenuCheckboxItem>
+        </DropdownMenuContent>
+      </DropdownMenu>,
+    );
+    await user.click(screen.getByRole("button", { name: "Actions" }));
+    await user.click(screen.getByRole("menuitem", { name: "Edit" }));
+    expect(action).toHaveBeenCalledOnce();
+  });
+});
+
+describe("Feedback and pagination", () => {
+  it("uses status semantics and renders an empty state and skeleton", () => {
+    render(
+      <>
+        <Alert>
+          <AlertTitle>Saved</AlertTitle>
+          <AlertDescription>Your changes were saved.</AlertDescription>
+        </Alert>
+        <EmptyState title="Nothing here" description="Add a record to begin." />
+        <Skeleton data-testid="loading" />
+      </>,
+    );
+    expect(screen.getByRole("status")).toHaveTextContent(
+      "Your changes were saved.",
+    );
+    expect(
+      screen.getByRole("heading", { name: "Nothing here" }),
+    ).toBeInTheDocument();
+    expect(screen.getByTestId("loading")).toHaveAttribute(
+      "aria-hidden",
+      "true",
+    );
+  });
+  it("disables unavailable page actions and reports page changes", async () => {
+    const user = userEvent.setup();
+    const onPageChange = vi.fn();
+    render(<Pagination page={1} totalPages={3} onPageChange={onPageChange} />);
+    expect(screen.getByText("Page 1 of 3")).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: "Previous page" }),
+    ).toBeDisabled();
+    await user.click(screen.getByRole("button", { name: "Next page" }));
+    expect(onPageChange).toHaveBeenCalledWith(2);
   });
 });

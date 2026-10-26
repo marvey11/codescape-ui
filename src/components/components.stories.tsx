@@ -12,6 +12,27 @@ import {
 import { Checkbox } from "./checkbox";
 import { Input } from "./input";
 import { Label } from "./label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "./select";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "./dropdown-menu";
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+  EmptyState,
+  Skeleton,
+} from "./feedback";
+import { Pagination } from "./pagination";
 
 const meta = {
   title: "Components/Examples",
@@ -95,5 +116,60 @@ export const CardExample: Story = {
         <Button>Save changes</Button>
       </CardFooter>
     </Card>
+  ),
+};
+
+export const SelectExample: Story = {
+  render: () => (
+    <div style={{ width: 280 }}>
+      <Label htmlFor="story-region">Region</Label>
+      <Select defaultValue="eu">
+        <SelectTrigger id="story-region" aria-label="Region">
+          <SelectValue placeholder="Choose a region" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="eu">Europe</SelectItem>
+          <SelectItem value="na">North America</SelectItem>
+          <SelectItem value="apac" disabled>
+            Asia Pacific (unavailable)
+          </SelectItem>
+        </SelectContent>
+      </Select>
+    </div>
+  ),
+};
+
+export const DropdownMenuExample: Story = {
+  render: () => (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="outline">Actions</Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="start">
+        <DropdownMenuItem>View details</DropdownMenuItem>
+        <DropdownMenuItem>Duplicate</DropdownMenuItem>
+        <DropdownMenuItem disabled>Archive</DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  ),
+};
+
+export const FeedbackAndPagination: Story = {
+  render: () => (
+    <div style={{ display: "grid", gap: 16, maxWidth: 560 }}>
+      <Alert variant="destructive">
+        <AlertTitle>Unable to load data</AlertTitle>
+        <AlertDescription>Please try again in a moment.</AlertDescription>
+      </Alert>
+      <EmptyState
+        title="No results found"
+        description="Try changing the filters to see more results."
+      />
+      <div style={{ display: "grid", gap: 8 }}>
+        <Skeleton style={{ width: "100%" }} />
+        <Skeleton style={{ width: "70%" }} />
+      </div>
+      <Pagination page={2} totalPages={5} onPageChange={() => undefined} />
+    </div>
   ),
 };

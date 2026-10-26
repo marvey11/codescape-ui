@@ -7,6 +7,10 @@ An accessible React component library and light theme for applications in the Co
 - React and React DOM 19 or later (peer dependencies)
 - Node.js 22.22.2+, 24.15.0+, or 26+ for development (required by Storybook 10 and Vitest 5)
 
+## Architecture
+
+This repository is a single-package library, not an application monorepo. `src/components` contains the typed React components, `src/lib` contains shared utilities, and `src/index.ts` defines the public JavaScript and type API. `styles/theme.css` owns the light theme tokens and component styles; Vite compiles it to the package's `style.css` export. `.storybook` configures the local component catalogue, and CI builds both the package and Storybook. Routing, data access and domain-specific workflows remain in consuming applications.
+
 ## Installation
 
 ```sh
@@ -70,9 +74,15 @@ GitHub Packages' npm registry requires authentication for downloads, including p
 - **Checkbox** — Radix UI checkbox with controlled, uncontrolled and indeterminate states, native keyboard interaction and accessible state announcements.
 - **Card** — composable `CardHeader`, `CardTitle`, `CardDescription`, `CardContent` and `CardFooter` sections.
 - **Badge** — `default`, `secondary`, `success`, `warning`, `destructive` and `outline` visual variants. Do not convey status by colour alone.
+- **Select** — Radix-based labelled value selection with keyboard navigation, disabled options, groups and scroll controls.
+- **DropdownMenu** — Radix-based action menus with disabled, checkbox, radio and submenu items; the primitive manages focus, dismissal and keyboard navigation.
+- **Alert** — status and validation feedback with default, success, warning and destructive variants.
+- **EmptyState** — a titled, descriptive no-content section with optional icon and actions.
+- **Skeleton** — an aria-hidden loading placeholder that respects reduced-motion preferences.
+- **Pagination** — controlled previous/next navigation with accessible labels, live page status and boundary disabling.
 - **cn** — merges conditional class names and resolves Tailwind utility conflicts.
 
-Components accept `className` for local styling overrides. Design tokens are defined in `styles/theme.css`; the current theme is light. The package includes Tailwind CSS 4 output and does not require a Tailwind plugin in consumer applications.
+Components accept `className` for local styling overrides. Design tokens are defined in `styles/theme.css`; the current theme is light. The package includes Tailwind CSS 4 output and does not require a Tailwind plugin in consumer applications. Select and DropdownMenu export composable Radix primitives; consumers provide their own options and menu actions.
 
 ## Development
 
