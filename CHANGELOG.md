@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-10-26
+
+- Added new components `DropdownMenu`, `Alert`, `EmptyState`, `Skeleton`, `Pagination`.
+
 ## [0.1.0] - 2026-10-09
 
 ### Added
