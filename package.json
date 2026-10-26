@@ -1,6 +1,6 @@
 {
   "name": "@marvey11/codescape-ui",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Accessible React components and design tokens for Codescape applications",
   "license": "MIT",
   "repository": {
@@ -43,7 +43,6 @@
   "devDependencies": {
     "@eslint-react/eslint-plugin": "^5.28.3",
     "@eslint/js": "^10.0.1",
-    "@radix-ui/react-checkbox": "^1.4.1",
     "@storybook/addon-a11y": "^10.6.3",
     "@storybook/addon-docs": "^10.6.3",
     "@storybook/react": "^10.6.3",
@@ -84,6 +83,7 @@
     "registry": "https://npm.pkg.github.com"
   },
   "dependencies": {
+    "@radix-ui/react-checkbox": "^1.4.1",
     "@radix-ui/react-dropdown-menu": "^2.2.1",
     "@radix-ui/react-select": "^2.4.1"
   }
