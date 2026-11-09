@@ -33,6 +33,7 @@ import {
   Skeleton,
 } from "./feedback";
 import { Pagination } from "./pagination";
+import { DataTable } from "./data-table";
 
 const meta = {
   title: "Components/Examples",
@@ -172,4 +173,33 @@ export const FeedbackAndPagination: Story = {
       <Pagination page={2} totalPages={5} onPageChange={() => undefined} />
     </div>
   ),
+};
+
+export const DataTableExample: Story = {
+  render: () => {
+    const rows = [
+      { id: 1, name: "Ada Lovelace", team: "Platform", status: "Online" },
+      { id: 2, name: "Grace Hopper", team: "Data", status: "Away" },
+      { id: 3, name: "Margaret Hamilton", team: "Systems", status: "Offline" },
+    ];
+
+    return (
+      <DataTable
+        aria-label="Team directory"
+        caption="Team directory"
+        columns={[
+          { key: "name", header: "Name", accessor: (row) => row.name },
+          { key: "team", header: "Team", accessor: (row) => row.team },
+          {
+            key: "status",
+            header: "Status",
+            accessor: (row) => row.status,
+            className: "cs-table__cell--center",
+          },
+        ]}
+        data={rows}
+        rowKey={(row) => row.id}
+      />
+    );
+  },
 };

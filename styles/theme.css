@@ -171,6 +171,59 @@
   height: 0.85rem;
   stroke-width: 3;
 }
+.cs-table__container {
+  width: 100%;
+  overflow-x: auto;
+}
+.cs-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 1px solid #e1e5ed;
+  border-radius: var(--radius-card);
+  background: white;
+  box-shadow: var(--shadow-card);
+}
+.cs-table__caption {
+  padding-bottom: 0.75rem;
+  color: #465269;
+  font-size: 0.875rem;
+  text-align: left;
+}
+.cs-table__header {
+  border-bottom: 1px solid #e1e5ed;
+  background: #f7f8fb;
+  color: #465269;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  text-align: left;
+  padding: 0.75rem 1rem;
+}
+.cs-table__header--center {
+  text-align: center;
+}
+.cs-table__header--right {
+  text-align: right;
+}
+.cs-table__cell {
+  border-bottom: 1px solid #eef1f7;
+  padding: 0.875rem 1rem;
+  color: #172033;
+  vertical-align: top;
+}
+.cs-table__cell--center {
+  text-align: center;
+}
+.cs-table__cell--right {
+  text-align: right;
+}
+.cs-table__empty {
+  padding: 1.5rem 1rem;
+  color: #465269;
+  text-align: center;
+}
 .cs-badge {
   display: inline-flex;
   align-items: center;

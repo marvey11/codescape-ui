@@ -22,6 +22,7 @@ import {
   Skeleton,
 } from "./feedback";
 import { Pagination } from "./pagination";
+import { DataTable } from "./data-table";
 import {
   Select,
   SelectContent,
@@ -229,5 +230,90 @@ describe("Feedback and pagination", () => {
     ).toBeDisabled();
     await user.click(screen.getByRole("button", { name: "Next page" }));
     expect(onPageChange).toHaveBeenCalledWith(2);
+  });
+
+  it("renders a neutral table shell with custom cells and empty states", () => {
+    const rows = [
+      { id: 1, name: "Ada", role: "Engineer" },
+      { id: 2, name: "Grace", role: "Architect" },
+    ];
+
+    render(
+      <DataTable
+        aria-label="Team roster"
+        caption="Team roster"
+        columns={[
+          { key: "name", header: "Name", accessor: (row) => row.name },
+          {
+            key: "role",
+            header: "Role",
+            render: (row) => `${row.role} (${row.name})`,
+          },
+        ]}
+        data={rows}
+        rowKey={(row) => row.id}
+      />,
+    );
+
+    expect(
+      screen.getByRole("table", { name: "Team roster" }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("columnheader", { name: "Name" }),
+    ).toBeInTheDocument();
+    expect(screen.getByText("Architect (Grace)")).toBeInTheDocument();
+
+    render(
+      <DataTable
+        aria-label="No teams"
+        columns={[{ key: "name", header: "Name" }]}
+        data={[]}
+        emptyState={<span>No teams available.</span>}
+      />,
+    );
+
+    expect(screen.getByText("No teams available.")).toBeInTheDocument();
+  });
+
+  it("covers default row keys and conversion branches for non-string cell values", () => {
+    render(
+      <DataTable
+        aria-label="Team schedule"
+        columns={[
+          { key: "name", header: "Name", accessor: (row) => row.name },
+          { key: "count", header: "Count", accessor: (row) => row.count },
+          { key: "marker", header: "Marker", accessor: (row) => row.marker },
+          { key: "config", header: "Config", accessor: (row) => row.config },
+          { key: "missing", header: "Missing", accessor: (row) => row.missing },
+          {
+            key: "status",
+            header: "Status",
+            render: () => <span>Ready</span>,
+          },
+        ]}
+        data={[
+          {
+            name: "Ada",
+            count: 2n,
+            marker: Symbol("ready"),
+            config: { region: "eu" },
+            missing: undefined,
+          },
+          { name: "Grace" },
+        ]}
+      />,
+    );
+
+    expect(
+      screen.getByRole("table", { name: "Team schedule" }),
+    ).toBeInTheDocument();
+    expect(screen.getByText("2")).toBeInTheDocument();
+    expect(screen.getByText("Symbol(ready)")).toBeInTheDocument();
+    expect(screen.getByText('{"region":"eu"}')).toBeInTheDocument();
+    expect(screen.getAllByText("—").length).toBeGreaterThan(0);
+    expect(screen.getAllByText("Ready").length).toBeGreaterThan(0);
+    expect(
+      screen.getByRole("columnheader", { name: "Status" }),
+    ).toBeInTheDocument();
   });
 });
