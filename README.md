@@ -80,6 +80,7 @@ GitHub Packages' npm registry requires authentication for downloads, including p
 - **EmptyState** — a titled, descriptive no-content section with optional icon and actions.
 - **Skeleton** — an aria-hidden loading placeholder that respects reduced-motion preferences.
 - **Pagination** — controlled previous/next navigation with accessible labels, live page status and boundary disabling.
+- **DataTable** — a neutral shell for column-driven rows, custom cell renderers and empty states; app-level features such as selection, sorting and row actions remain in the consuming application.
 - **cn** — merges conditional class names and resolves Tailwind utility conflicts.
 
 Components accept `className` for local styling overrides. Design tokens are defined in `styles/theme.css`; the current theme is light. The package includes Tailwind CSS 4 output and does not require a Tailwind plugin in consumer applications. Select and DropdownMenu export composable Radix primitives; consumers provide their own options and menu actions.

@@ -49,4 +49,9 @@ export {
 export { Pagination, type PaginationProps } from "./components/pagination";
 export { Input, type InputProps } from "./components/input";
 export { Label, type LabelProps } from "./components/label";
+export {
+  DataTable,
+  type DataTableColumn,
+  type DataTableProps,
+} from "./components/data-table";
 export { cn } from "./lib/cn";
