@@ -1,3 +1,4 @@
+import { useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 import { Badge } from "./badge";
 import { Button } from "./button";
@@ -202,4 +203,64 @@ export const DataTableExample: Story = {
       />
     );
   },
+};
+
+function DataTableRowExpansionExample() {
+  const [expandedRowId, setExpandedRowId] = useState<number | null>(null);
+  const rows = [
+    {
+      id: 1,
+      name: "Ada Lovelace",
+      team: "Platform",
+      notes: "Leads the platform reliability initiative.",
+    },
+    {
+      id: 2,
+      name: "Grace Hopper",
+      team: "Data",
+      notes: "Coordinates the data quality programme.",
+    },
+  ];
+
+  return (
+    <DataTable
+      aria-label="Team directory with row details"
+      columns={[
+        { key: "name", header: "Name", accessor: (row) => row.name },
+        { key: "team", header: "Team", accessor: (row) => row.team },
+        {
+          key: "details",
+          header: "Details",
+          render: (row) => {
+            const isExpanded = expandedRowId === row.id;
+            return (
+              <button
+                type="button"
+                aria-expanded={isExpanded}
+                aria-controls={
+                  isExpanded ? `team-member-${row.id}-details` : undefined
+                }
+                onClick={() => setExpandedRowId(isExpanded ? null : row.id)}
+              >
+                {isExpanded ? "Hide" : "Show"} details for {row.name}
+              </button>
+            );
+          },
+        },
+      ]}
+      data={rows}
+      renderExpandedRow={(row) =>
+        expandedRowId === row.id ? (
+          <div id={`team-member-${row.id}-details`}>
+            <strong>Notes:</strong> {row.notes}
+          </div>
+        ) : null
+      }
+      rowKey={(row) => row.id}
+    />
+  );
+}
+
+export const DataTableRowExpansion: Story = {
+  render: () => <DataTableRowExpansionExample />,
 };
