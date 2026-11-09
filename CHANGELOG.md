@@ -7,9 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-11-09
+
 ### Added
 
-- Added data table, a neutral shell for column-driven rows, custom cell renderers and empty states.
+- Added `DataTable`, a neutral shell for column-driven rows, custom cell renderers and empty states.
 - Added checks for markdown-linting and commitlint, including GitHub workflows.
 
 ## [0.2.0] - 2026-10-26
