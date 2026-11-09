@@ -7,7 +7,8 @@
 - Add component stories when introducing or changing public components.
 - Keep lint rules focused on correctness and accessibility; Prettier owns code formatting.
 - Keep TypeScript strict options enabled across source, tests, stories, and configuration.
-- Use `npm run lint`, `npm run format:check`, `npm run typecheck`, `npm test`, and `npm run build` to validate changes when dependencies are available.
+- Use `npm run lint`, `npm run lint:md`, `npm run format:check`, `npm run typecheck`, `npm test`, and `npm run build` to validate changes when dependencies are available.
+- Git hooks run `lint-staged` before a commit to enforce `prettier`, `eslint`, and markdown linting on staged files; `commitlint` validates commit messages; `npm test` runs before push.
 - Source components live in `src/components`, with the package API exported from `src/index.ts`; tests and Storybook stories are kept beside that source.
 - `styles/theme.css` owns component styles and design tokens. `src/styles.ts` and the Vite library build produce the public `@marvey11/codescape-ui/style.css` entry.
 - Use Radix primitives for composite interactive controls such as Select and DropdownMenu. Keep simple feedback patterns semantic and lightweight.
