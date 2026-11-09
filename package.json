@@ -29,10 +29,12 @@
     "build": "npm run typecheck && vite build && tsc -p tsconfig.build.json --emitDeclarationOnly",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "lint": "eslint .",
+    "lint:md": "markdownlint-cli2 \"README.md\" \"AGENTS.md\" \"CHANGELOG.md\"",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "test": "vitest run --coverage",
     "test:watch": "vitest",
+    "prepare": "husky",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
@@ -41,6 +43,8 @@
     "react-dom": ">=19"
   },
   "devDependencies": {
+    "@commitlint/cli": "^19.6.1",
+    "@commitlint/config-conventional": "^19.6.1",
     "@eslint-react/eslint-plugin": "^5.28.8",
     "@eslint/js": "^10.0.1",
     "@storybook/addon-a11y": "^10.6.5",
@@ -63,8 +67,11 @@
     "eslint-plugin-jsx-a11y-x": "^0.2.0",
     "eslint-plugin-react-hooks": "^7.1.1",
     "globals": "^17.14.0",
+    "husky": "^9.1.7",
     "jsdom": "^30.1.3",
+    "lint-staged": "^16.0.0",
     "lucide-react": "^1.67.0",
+    "markdownlint-cli2": "^0.18.1",
     "prettier": "^3.9.10",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
@@ -86,5 +93,18 @@
     "@radix-ui/react-checkbox": "^1.4.1",
     "@radix-ui/react-dropdown-menu": "^2.2.1",
     "@radix-ui/react-select": "^2.4.1"
+  },
+  "lint-staged": {
+    "*.{js,cjs,mjs,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,yml,yaml}": [
+      "prettier --write"
+    ],
+    "*.md": [
+      "markdownlint-cli2",
+      "prettier --write"
+    ]
   }
 }
