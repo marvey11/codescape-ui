@@ -1,6 +1,6 @@
 {
   "name": "@marvey11/codescape-ui",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Accessible React components and design tokens for Codescape applications",
   "license": "MIT",
   "repository": {
