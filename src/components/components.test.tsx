@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { Badge } from "./badge";
 import { Button } from "./button";
@@ -273,6 +273,47 @@ describe("Feedback and pagination", () => {
     );
 
     expect(screen.getByText("No teams available.")).toBeInTheDocument();
+  });
+
+  it("renders controlled row details only when provided", () => {
+    const rows = [
+      { id: 1, name: "Ada", role: "Engineer" },
+      { id: 2, name: "Grace", role: "Architect" },
+    ];
+    const renderExpandedRow = vi.fn(
+      (row: (typeof rows)[number], index: number) =>
+        row.id === 2 ? (
+          <span>
+            {row.name} details at row {index}
+          </span>
+        ) : null,
+    );
+
+    render(
+      <DataTable
+        aria-label="Team roster with details"
+        columns={[
+          { key: "name", header: "Name", accessor: (row) => row.name },
+          { key: "role", header: "Role", accessor: (row) => row.role },
+        ]}
+        data={rows}
+        renderExpandedRow={renderExpandedRow}
+        rowKey={(row) => row.id}
+      />,
+    );
+
+    expect(screen.getByText("Grace details at row 1")).toBeInTheDocument();
+    expect(screen.queryByText("Ada details at row 0")).not.toBeInTheDocument();
+    expect(
+      within(
+        screen.getByRole("table", { name: "Team roster with details" }),
+      ).getAllByRole("row"),
+    ).toHaveLength(4);
+    expect(
+      screen.getByText("Grace details at row 1").closest("td"),
+    ).toHaveAttribute("colspan", "2");
+    expect(renderExpandedRow).toHaveBeenNthCalledWith(1, rows[0], 0);
+    expect(renderExpandedRow).toHaveBeenNthCalledWith(2, rows[1], 1);
   });
 
   it("covers default row keys and conversion branches for non-string cell values", () => {

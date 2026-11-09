@@ -20,6 +20,7 @@ export interface DataTableProps<T> extends Omit<
   emptyState?: React.ReactNode;
   rowKey?: (row: T, index: number) => string | number;
   caption?: React.ReactNode;
+  renderExpandedRow?: (row: T, index: number) => React.ReactNode;
 }
 
 export function DataTable<T>({
@@ -29,6 +30,7 @@ export function DataTable<T>({
   rowKey,
   className,
   caption,
+  renderExpandedRow,
   ...props
 }: DataTableProps<T>) {
   const resolveRowKey =
@@ -112,38 +114,48 @@ export function DataTable<T>({
           ) : (
             data.map((row, index) => {
               const rowId = resolveRowKey(row, index);
+              const expandedContent = renderExpandedRow?.(row, index);
               return (
-                <tr key={rowId}>
-                  {columns.map((column) => {
-                    const record =
-                      typeof row === "object" && row !== null
-                        ? (row as Record<string, unknown>)
-                        : undefined;
-                    const value =
-                      typeof column.accessor === "function"
-                        ? column.accessor(row)
-                        : record && column.key in record
-                          ? record[column.key]
+                <React.Fragment key={rowId}>
+                  <tr>
+                    {columns.map((column) => {
+                      const record =
+                        typeof row === "object" && row !== null
+                          ? (row as Record<string, unknown>)
                           : undefined;
-                    const content: React.ReactNode =
-                      typeof column.render === "function"
-                        ? column.render(row, value, index)
-                        : renderCellValue(value);
+                      const value =
+                        typeof column.accessor === "function"
+                          ? column.accessor(row)
+                          : record && column.key in record
+                            ? record[column.key]
+                            : undefined;
+                      const content: React.ReactNode =
+                        typeof column.render === "function"
+                          ? column.render(row, value, index)
+                          : renderCellValue(value);
 
-                    return (
-                      <td
-                        key={`${String(rowId)}-${column.key}`}
-                        className={cn(
-                          "cs-table__cell",
-                          column.className,
-                          column.align && `cs-table__cell--${column.align}`,
-                        )}
-                      >
-                        {content}
+                      return (
+                        <td
+                          key={`${String(rowId)}-${column.key}`}
+                          className={cn(
+                            "cs-table__cell",
+                            column.className,
+                            column.align && `cs-table__cell--${column.align}`,
+                          )}
+                        >
+                          {content}
+                        </td>
+                      );
+                    })}
+                  </tr>
+                  {expandedContent !== null && expandedContent !== undefined ? (
+                    <tr>
+                      <td className="cs-table__cell" colSpan={columns.length}>
+                        {expandedContent}
                       </td>
-                    );
-                  })}
-                </tr>
+                    </tr>
+                  ) : null}
+                </React.Fragment>
               );
             })
           )}
